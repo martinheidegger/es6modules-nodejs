@@ -171,8 +171,7 @@ Effort a developer has to take to make her package legacy compatible.  (5=little
 | Extension        | 3 | Always deploy the package with a `.mjs` and a `.js` file at the same place (with the same name). | 
 | White-/Blacklist | 3 |  The developer has a lot of control over how the packages are built but at the same time she needs to gain control and remember
 how the system is setup. Human error can easily happen. |
-| ES2015 switch    | 3 | The compiler will pretty much work like anywhere else
-except that it is easier to specify different dependencies for different variants. |
+| ES2015 switch    | 3 | The compiler will pretty much work like anywhere else except that it is easier to specify different dependencies for different variants. |
 
 ### Downloads
 
