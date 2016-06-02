@@ -225,9 +225,9 @@ the opporunity to implement other things:
 
 ## Feedback
 
-If you have any question feel free to chat on gitter.
+If you have any question feel free to [chat on gitter](https://gitter.im/martinheidegger/es6modules-nodejs).
 
-You can also open a Issue or Pull Request on github.
+You can also [open an Issue](https://github.com/martinheidegger/es6modules-nodejs/issues/new) or Pull Request [on github](https://github.com/martinheidegger/es6modules-nodejs).
 
 And you can join this poll:
 
