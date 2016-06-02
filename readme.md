@@ -115,8 +115,8 @@ _(Note: this is originally variant 4f. Since the implementation consequences are
 
 CPU cycles and Memory when running node (5=neglectible, 1=cpu-heavy).
 
-|                  |   |   |
-|------------------|---|---|
+| Proposal         |   | Explanation  |
+|------------------|---|--------------|
 | Extension        | 5 | Only the file-ending has to be tested, no other overhead | 
 | White-/Blacklist | 2 | The file-name has to be tested against a potentially complicated list |
 | ES2015 switch    | 4 | The first file of a is slower because the `package.json` needs to be read but every further file after has the same speed. |
@@ -125,8 +125,8 @@ CPU cycles and Memory when running node (5=neglectible, 1=cpu-heavy).
 
 Effort it takes to bring this implementation to Node.js (5=much, 1=little)
 
-|                  |   |   |
-|------------------|---|---|
+| Proposal         |   | Explanation  |
+|------------------|---|--------------|
 | Extension        | 5 | if/else switch, thats it. | 
 | White-/Blacklist | 3 | Significantly more difficult than if/else |
 | ES2015 switch    | 1 | It requires **NPM** to implement variants of packages into the package system. |
@@ -135,8 +135,8 @@ Effort it takes to bring this implementation to Node.js (5=much, 1=little)
 
 Effort to learn the new system. (5=easy, 1=hard)
 
-|                  |   |   |
-|------------------|---|---|
+| Proposal         |   | Explanation  |
+|------------------|---|--------------|
 | Extension        | 5 | File endings can be easily studied. | 
 | White-/Blacklist | 2 | Trying to memorize this complex system is hard. |
 | ES2015 switch    | 4 | Mostly straight forward, deployment of variants might be a bit harder to learn than if there were only extensions |
@@ -145,8 +145,8 @@ Effort to learn the new system. (5=easy, 1=hard)
 
 Increased development difficulty through the proposal. (5=almost-none, 1=a-lot)
 
-|                  |   |   |
-|------------------|---|---|
+| Proposal         |   | Explanation  |
+|------------------|---|--------------|
 | Extension        | 3 | Every developer has to setup his tools to work with the new file extension | 
 | White-/Blacklist | 1 | It is not immediately clear which files are `ES2015` and which are `CommonJS`. The tools might mistake that just as much as developers |
 | ES2015 switch    | 2 | The developer has to learn that there are different modes and has to look it up once per package he is working on. |
@@ -155,8 +155,8 @@ Increased development difficulty through the proposal. (5=almost-none, 1=a-lot)
 
 Effort for a developer now to use a `ES2015`-only module. (5=little, 1=much)
 
-|                  |   |   |
-|------------------|---|---|
+| Proposal         |   | Explanation  |
+|------------------|---|--------------|
 | Extension        | 4 | If a package decides to switch from `.js` to `.mjs` entirely the developers might need to adjust their import statements from `require('a-package/a-module.js') ` to `require('a-package/a-module.mjs)` if
 no legacy support is present. | 
 | White-/Blacklist | 3 | It is not immediately clear which files are `ES2015` and which are `CommonJS`. The tools might mistake that just as much as developers. |
@@ -166,19 +166,18 @@ no legacy support is present. |
 
 Effort a developer has to take to make her package legacy compatible.  (5=little, 1=much)
 
-|                  |   |   |
-|------------------|---|---|
+| Proposal         |   | Explanation  |
+|------------------|---|--------------|
 | Extension        | 3 | Always deploy the package with a `.mjs` and a `.js` file at the same place (with the same name). | 
-| White-/Blacklist | 3 |  The developer has a lot of control over how the packages are built but at the same time she needs to gain control and remember
-how the system is setup. Human error can easily happen. |
+| White-/Blacklist | 3 |  The developer has a lot of control over how the packages are built but at the same time she needs to gain control and remember how the system is setup. Human error can easily happen. |
 | ES2015 switch    | 3 | The compiler will pretty much work like anywhere else except that it is easier to specify different dependencies for different variants. |
 
 ### Downloads
 
 Change of a file-size per package. (5=good, 1=bad)
 
-|                  |   |   |
-|------------------|---|---|
+| Proposal         |   | Explanation  |
+|------------------|---|--------------|
 | Extension        | 1 | Has to contain every file twice for legacy packages. | 
 | White-/Blacklist | 1 | Has to contain every file twice for legacy packages. |
 | ES2015 switch    | 5 | Only the package is downloaded - no change in download-size. |
