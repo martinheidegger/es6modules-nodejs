@@ -1,5 +1,7 @@
 # `ES2015` module detection in Node.js _(June 2016)_
 
+[![Join the chat at https://gitter.im/martinheidegger/es6modules-nodejs](https://badges.gitter.im/martinheidegger/es6modules-nodejs.svg)](https://gitter.im/martinheidegger/es6modules-nodejs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Intro
 
 [`ES2015 Modules`](http://www.ecma-international.org/ecma-262/6.0/#sec-modules) are also called `ES6 modules` or `JavaScript modules`. They have been proposed by [the TC39](http://ecma-international.org/memento/TC39.htm) and it seems still up [for](https://github.com/tc39/ecma262/issues/368) [discussion](https://github.com/tc39/ecma262/issues/395).
