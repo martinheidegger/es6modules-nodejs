@@ -157,8 +157,7 @@ Effort for a developer now to use a `ES2015`-only module. (5=little, 1=much)
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
-| Extension        | 4 | If a package decides to switch from `.js` to `.mjs` entirely the developers might need to adjust their import statements from `require('a-package/a-module.js') ` to `require('a-package/a-module.mjs)` if
-no legacy support is present. | 
+| Extension        | 4 | If a package decides to switch from `.js` to `.mjs` entirely the developers might need to adjust their import statements from `require('a-package/a-module.js') ` to `require('a-package/a-module.mjs)` if no legacy support is present. | 
 | White-/Blacklist | 3 | It is not immediately clear which files are `ES2015` and which are `CommonJS`. The tools might mistake that just as much as developers. |
 | ES2015 switch    | 4 | Nothing changed but they have to know that old node.js version might not be supported with new packages. |
 
