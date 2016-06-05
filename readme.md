@@ -133,7 +133,7 @@ Effort it takes to bring this implementation to Node.js (5=much, 1=little)
 |------------------|---|--------------|
 | Extension        | 5 | if/else switch, thats it. | 
 | White-/Blacklist | 3 | Significantly more difficult than if/else |
-| ES2015 switch    | 1 | It requires **NPM** to implement variants of packages into the package system. |
+| ES2015 switch    | 1 | It requires **NPM** to implement variants of packages into the package system. **However:** it is important to mention that the Node.js-side should be rather trivial. |
 
 ### Education
 
