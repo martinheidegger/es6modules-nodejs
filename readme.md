@@ -187,7 +187,14 @@ Change of a file-size per package. (5=good, 1=bad)
 
 ### Tooling
 
-Impact that the change has on tools. (5=none, 1=a-lot)
+Impact that the change has on tools. (5=simple, 1=complicated)
+
+| Proposal         |   | Explanation  |
+|------------------|---|--------------|
+| Extension        | 4 | The .mjs file only needs to be added as file exension. | 
+| White-/Blacklist | 2 | By default all editors should mostly work but it seems unlikely that a specification will be consitently adhered-to by all editors. |
+| ES2015 switch    | 5 | By default all editors should mostly work and
+if they want to implemented the dedicated to fine detais |
 
 ## Further considerations
 
