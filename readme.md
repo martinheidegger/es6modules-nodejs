@@ -5,7 +5,11 @@
 [`ES2015 Modules`](http://www.ecma-international.org/ecma-262/6.0/#sec-modules) are also called `ES6 modules` or `JavaScript modules`. They have been proposed by [the TC39](http://ecma-international.org/memento/TC39.htm) and it seems still up [for](https://github.com/tc39/ecma262/issues/368) [discussion](https://github.com/tc39/ecma262/issues/395).
 MDN has an [extensive documentation](https://developer.mozilla.org/en/docs/web/javascript/reference/statements/import)
 already. [Babel](http://babeljs.io/) is in wide use and contains a compiler plugin for [es6 modules](http://babeljs.io/docs/plugins/transform-es2015-modules-commonjs/).
-Meteor has es6 module support [from 1.3](http://guide.meteor.com/structure.html#es2015-modules).
+Meteor has es6 module support [from 1.3](http://guide.meteor.com/structure.html#es2015-modules). Microsoft is already shipping with
+[`ES6 modules` for `Chakra` behind a switch](https://blogs.windows.com/msedgedev/2016/05/17/es6-modules-and-beyond/).
+The Chrome team is working on
+[it](https://bugs.chromium.org/p/v8/issues/detail?id=1569) for a while now and 
+so [is](https://bugzilla.mozilla.org/show_bug.cgi?id=568953) the Mozilla team.
 All but Node.js seem to officially support ES6 modules. The [Node TSC](https://nodejs.org/en/foundation/tsc/) has been discussing this issue for a while now. There have been [several proposals](https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node) and one has become a [draft](https://github.com/nodejs/node-eps/blob/master/002-es6-modules.md). However some in the community feel that this solution is _not cool_ and ask [_in-defense-of-.js_](https://github.com/dherman/defense-of-dot-js) to reconsider this draft. This article should shed light on the problems and discusses the pro and cons of the given proposals.
 
 ## The Involved Parties
