@@ -127,7 +127,7 @@ CPU cycles and Memory when running node (5=neglectible, 1=cpu-heavy).
 
 ### Implementation
 
-Effort it takes to bring this implementation to Node.js (5=much, 1=little)
+Effort it takes to bring this implementation to Node.js (5=little, 1=much)
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
