@@ -35,7 +35,7 @@ and as such interoperability is a key-concern for them as well.
 ### Frontend engineers
 
 `ES2016 modules` are supposed to be also implemented by browsers. This has not 
-[yet happened](https://developer.mozilla.org/en/docs/web/javascript/reference statements/import#Browser_compatibility) but it seems a little further away. 
+[yet happened](https://developer.mozilla.org/en/docs/web/javascript/reference/statements/import#Browser_compatibility) but it seems a little further away. 
 Frontend developers though also tend to increasingly use npm packages that (which would in future).
 
 ### NPM
@@ -193,8 +193,7 @@ Impact that the change has on tools. (5=simple, 1=complicated)
 |------------------|---|--------------|
 | Extension        | 4 | The .mjs file only needs to be added as file exension. | 
 | White-/Blacklist | 2 | By default all editors should mostly work but it seems unlikely that a specification will be consitently adhered-to by all editors. |
-| ES2015 switch    | 5 | By default all editors should mostly work and
-if they want to implemented the dedicated to fine detais |
+| ES2015 switch    | 5 | By default all editors should mostly work. To implement the few edge cases would be simple too. |
 
 ## Further considerations
 
