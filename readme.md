@@ -35,8 +35,8 @@ and as such interoperability is a key-concern for them as well.
 ### Frontend engineers
 
 `ES2016 modules` are supposed to be also implemented by browsers. This has not 
-[yet happened](https://developer.mozilla.org/en/docs/web/javascript/reference/statements/import#Browser_compatibility) but it seems a little further away. 
-Frontend developers though also tend to increasingly use npm packages that (which would in future).
+[yet happened](https://developer.mozilla.org/en/docs/web/javascript/reference/statements/import#Browser_compatibility) but with Chakra being the first to hide it behind a flag it is making quick progress. 
+Frontend developers though also tend to increasingly use npm packages. As such they are interested in better tooling around such things as `ES2015 module` to regular JavaScript transpilers such as [babel](http://babeljs.io/).
 
 ### NPM
 
@@ -117,7 +117,7 @@ _(Note: this is originally variant 4f. Since the implementation consequences are
 
 ### Runtime
 
-CPU cycles and Memory when running node (5=neglectible, 1=cpu-heavy).
+CPU cycles and Memory when running node. _(5=neglectible, 1=cpu-heavy)_
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
@@ -127,7 +127,7 @@ CPU cycles and Memory when running node (5=neglectible, 1=cpu-heavy).
 
 ### Implementation
 
-Effort it takes to bring this implementation to Node.js (5=much, 1=little)
+Effort it takes to bring this implementation to Node.js. _(5=much, 1=little)_
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
@@ -137,7 +137,7 @@ Effort it takes to bring this implementation to Node.js (5=much, 1=little)
 
 ### Education
 
-Effort to learn the new system. (5=easy, 1=hard)
+Effort to learn the new system. _(5=easy, 1=hard)_
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
@@ -147,7 +147,7 @@ Effort to learn the new system. (5=easy, 1=hard)
 
 ### Development
 
-Increased development difficulty through the proposal. (5=almost-none, 1=a-lot)
+Increased development difficulty through the proposal. _(5=almost-none, 1=a-lot)_
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
@@ -157,7 +157,7 @@ Increased development difficulty through the proposal. (5=almost-none, 1=a-lot)
 
 ### Legacy Development
 
-Effort for a developer now to use a `ES2015`-only module. (5=little, 1=much)
+Effort for a developer now to use a `ES2015`-only module. _(5=little, 1=much)_
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
@@ -167,7 +167,7 @@ Effort for a developer now to use a `ES2015`-only module. (5=little, 1=much)
 
 ### Legacy Package Development
 
-Effort a developer has to take to make her package legacy compatible.  (5=little, 1=much)
+Effort a developer has to take to make her package legacy compatible.  _(5=little, 1=much)_
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
@@ -177,7 +177,7 @@ Effort a developer has to take to make her package legacy compatible.  (5=little
 
 ### Downloads
 
-Change of a file-size per package. (5=good, 1=bad)
+Change of a file-size per package. _(5=good, 1=bad)_
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
@@ -187,7 +187,7 @@ Change of a file-size per package. (5=good, 1=bad)
 
 ### Tooling
 
-Impact that the change has on tools. (5=simple, 1=complicated)
+Impact that the change has on tools. _(5=simple, 1=complicated)_
 
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
