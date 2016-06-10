@@ -1,0 +1,41 @@
+{
+  "name": "es6modules-nodejs",
+  "version": "1.0.0",
+  "description": "## Intro",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "scripts/build.js; npm run browserify",
+    "browserify": "browserify -e scripts/index.js -o build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinheidegger/es6modules-nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martinheidegger/es6modules-nodejs/issues"
+  },
+  "homepage": "https://github.com/martinheidegger/es6modules-nodejs#readme",
+  "dependencies": {
+    "Bitters": "git+https://github.com/thoughtbot/bitters/",
+    "ampersand-router": "^4.0.0",
+    "bourbon": "^4.2.7",
+    "bourbon-neat": "^1.7.4",
+    "browserify": "^13.0.1",
+    "domready": "^1.0.8",
+    "element-scroll-to": "^1.1.0",
+    "eyeglass": "^0.8.3",
+    "jade": "^1.11.0",
+    "markdown-it": "^6.0.5",
+    "markdown-it-attrs": "^0.5.1",
+    "markdown-it-contents": "0.0.1",
+    "markdown-it-hashtag": "^0.4.0",
+    "markdown-it-header-sections": "^0.2.2",
+    "markdown-it-link-target": "^1.0.1",
+    "mkdir-p": "0.0.7",
+    "node-sass": "^3.7.0",
+    "standard": "^7.1.2"
+  }
+}
