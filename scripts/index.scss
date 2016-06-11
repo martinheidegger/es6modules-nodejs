@@ -4,9 +4,9 @@
 $font-stack-system: 'Jaldi', $helvetica;
 $background: #333;
 
-
 @import "base";
 @import "neat";
+
 
 h1 {
 	display: none;
@@ -147,7 +147,20 @@ table tr {
 section {
 	background-color: white;
 	margin-bottom: 1.5em;
-	a {
+	color: #444;
+	ul {
+		margin-left: 1.2em;
+		margin-bottom: 1.2em;
+	}
+	li {
+		list-style-type: disc;
+	}
+	code {
+		font-family: $font-stack-system;
+		color: #000;
+		font-weight: bold;
+	}
+	a, a code {
 		color: #00c;
 		&:hover, &:focus, &:visited {
 			color: #00c;

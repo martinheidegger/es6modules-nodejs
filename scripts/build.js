@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const path = require('path')
 
 require('mkdir-p').sync(path.join(__dirname, '..', 'build'))
@@ -18,11 +17,10 @@ const md = require('markdown-it')({
 
 const fs = require('fs')
 const sassFile = path.join(__dirname, '..', 'build', 'index.css')
-var includePaths = require("bourbon").includePaths
-  .concat(require("bourbon-neat").includePaths)
-  .concat(path.join(path.dirname(require.resolve("Bitters")), 'core'))
+var includePaths = require('bourbon').includePaths
+  .concat(require('bourbon-neat').includePaths)
+  .concat(path.join(path.dirname(require.resolve('Bitters')), 'core'))
 includePaths.push(__dirname)
-includePaths = includePaths
 
 const sassData = sass.renderSync({
   file: path.join(__dirname, 'index.scss'),
