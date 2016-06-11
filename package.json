@@ -15,8 +15,8 @@
     "type": "git",
     "url": "git+https://github.com/martinheidegger/es6modules-nodejs.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Martin Heidegger <martin.heidegger@gmail.com>",
+  "license": "cc-by-nc-sa/4.0",
   "bugs": {
     "url": "https://github.com/martinheidegger/es6modules-nodejs/issues"
   },
