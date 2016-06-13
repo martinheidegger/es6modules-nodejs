@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 const path = require('path')
 
-require('mkdir-p').sync(path.join(__dirname, '..', 'build'))
-
 const sass = require('node-sass')
 const jade = require('jade')
 const md = require('markdown-it')({
