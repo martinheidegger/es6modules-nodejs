@@ -14,9 +14,11 @@ function switchTo (section, subSection) {
     current.style.display = ''
   }
   section.style.display = 'block'
-  scrollToElement(subSection || section, {
-    margin: 100
-  })
+  if (document.body.offsetWidth > 640) {
+    scrollToElement(subSection || section, {
+      margin: 100
+    })
+  }
   current = section
 }
 

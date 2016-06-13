@@ -206,6 +206,13 @@ table.responsive-table td:before {
 		padding-top: 0em;
 	}
 }
+@media (max-width: 640px) {
+	.table-of-contents {
+		ul ul {
+			display: none!important;
+		}
+	}
+}
 
 @media (min-width: 500px) {
   table.responsive-table th,
