@@ -3,7 +3,7 @@
 ## What is this about?
 
 The [Node TSC](https://nodejs.org/en/foundation/tsc/) has been
-[publicly discussing]((https://github.com/nodejs/node-eps)) how  to implement
+[publicly discussing](https://github.com/nodejs/node-eps) how  to implement
 `ES2015 modules` in future versions of [`Node.js`](http://nodejs.org/) 
 for a while now.  There have been
 [several proposals](https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node)
