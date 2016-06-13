@@ -20,6 +20,8 @@ var includePaths = require('bourbon').includePaths
   .concat(path.join(path.dirname(require.resolve('Bitters')), 'core'))
 includePaths.push(__dirname)
 
+fs.writeFileSync(path.join(__dirname, '..', 'build', 'CNAME'), 'es2015-node.js.org\n')
+
 const sassData = sass.renderSync({
   file: path.join(__dirname, 'index.scss'),
   includePaths: includePaths.map(function (pth) {
