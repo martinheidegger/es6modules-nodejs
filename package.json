@@ -7,7 +7,7 @@
   "scripts": {
     "deploy": "npm run lint && npm run build && npm run push-to-github",
     "lint": "standard",
-    "push-to-github": "echo 'hi'",
+    "push-to-github": "scripts/deploy.sh",
     "build": "scripts/build.js; npm run browserify",
     "browserify": "browserify -e scripts/index.js -o build/index.js"
   },

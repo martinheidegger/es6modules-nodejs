@@ -195,6 +195,18 @@ table.responsive-table td:before {
   width: 100%;
 }
 
+@media (max-width: 1000px) {
+	.table-of-contents {
+		position: static;
+		&, > ul {
+			height: auto;
+		}
+	}
+	body > div > section {
+		padding-top: 0em;
+	}
+}
+
 @media (min-width: 500px) {
   table.responsive-table th,
   table.responsive-table td {
