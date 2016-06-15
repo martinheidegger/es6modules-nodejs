@@ -109,7 +109,8 @@ special file ending. Several file endings have been discussed, in the end
 The content would be pre-parsed to identify whether its a `CommonJS` or
 `ES2015` module.
 
-_(Rejected because the detection is fuzzy and could lead to user confusion and problems with tooling)_
+_(Rejected because the detection has ambiguity in `CommonJS` packages. This could be revisited if the TC39 changes the specification of ES2015 modules but
+could still be rejected because of performance reasons)_
 
 [more here](https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node#option-3-content-sniffing-in-node-semantics-rejected)
 
