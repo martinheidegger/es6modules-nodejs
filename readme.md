@@ -104,7 +104,7 @@ special file ending. Several file endings have been discussed, in the end
 
 [more here](https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node#option-2-new-file-extension-for-es6-modules)
 
-### 3) ~~Content-Sniffing~~ _(rejected)_
+### 3) ~~Content-Sniffing aka. Double Parsing~~ _(rejected)_
 
 The content would be pre-parsed to identify whether its a `CommonJS` or
 `ES2015` module.
