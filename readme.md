@@ -133,6 +133,14 @@ in the package (sub-packages excluded).
 
 _(Note: this is originally variant 4f. Since the implementation consequences are very different it has been named 5.)_
 
+### 6) `default.js` as identifier
+
+Regular `.js` files would stay `CommonJS` modules while the `ES2015 modules` 
+would need to be implemented in a file called `default.js`. Every import
+within the `default.js` assumes that the referred module is an `ES2015 module`.
+
+[more here](https://github.com/zenparsing/es6-node-modules)
+
 ## Comparisons
 
 ### Runtime
@@ -144,6 +152,7 @@ CPU cycles and Memory when running node. _(5=neglectible, 1=cpu-heavy)_
 | Extension        | 5 | Only the file-ending has to be tested, no other overhead | 
 | White-/Blacklist | 2 | The file-name has to be tested against a potentially complicated list |
 | ES2015 switch    | 4 | The first file of a is slower because the `package.json` needs to be read but every further file after has the same speed. |
+| default.js       | 4 | The first file might be a bit tricky to detect but overall it should be fast. |
 
 ### Implementation
 
@@ -154,6 +163,7 @@ Effort it takes to bring this implementation to Node.js. _(5=little, 1=much)_
 | Extension        | 5 | if/else switch, thats it. | 
 | White-/Blacklist | 3 | Significantly more difficult than if/else |
 | ES2015 switch    | 1 | It requires **NPM** to implement variants of packages into the package system. **However:** it is important to mention that the Node.js-side should be rather trivial. |
+| default.js       | 3 | It requires a new core API _(`require.import`)_ and needs to have several switches to make sure it uses default. |
 
 ### Education
 
@@ -164,6 +174,7 @@ Effort to learn the new system. _(5=easy, 1=hard)_
 | Extension        | 5 | File endings can be easily studied. | 
 | White-/Blacklist | 2 | Trying to memorize this complex system is hard. |
 | ES2015 switch    | 4 | Mostly straight forward, deployment of variants might be a bit harder to learn than if there were only extensions |
+| default.js       | 1 | It is not immediately clear why `imports` don't work in the `index.js` but they do work in the `default.js`. Many examples and documentation might lead users into the wrong directions. | 
 
 ### Development
 
@@ -174,6 +185,7 @@ Increased development difficulty through the proposal. _(5=almost-none, 1=a-lot)
 | Extension        | 3 | Every developer has to setup his tools to work with the new file extension | 
 | White-/Blacklist | 1 | It is not immediately clear which files are `ES2015` and which are `CommonJS`. The tools might mistake that just as much as developers |
 | ES2015 switch    | 2 | The developer has to learn that there are different modes and has to look it up once per package he is working on. |
+| default.js       | 4 | Once a developer learned about the `default.js`, she should easily be able to find herself around in Node.js project. |
 
 ### Legacy Development
 
@@ -184,6 +196,7 @@ Effort for a developer now to use a `ES2015`-only module. _(5=little, 1=much)_
 | Extension        | 4 | If a package decides to switch from `.js` to `.mjs` entirely the developers might need to adjust their import statements from `require('a-package/a-module.js') ` to `require('a-package/a-module.mjs)` if no legacy support is present. | 
 | White-/Blacklist | 3 | It is not immediately clear which files are `ES2015` and which are `CommonJS`. The tools might mistake that just as much as developers. |
 | ES2015 switch    | 4 | Nothing changed but they have to know that old node.js version might not be supported with new packages. |
+| default.js       | 4 | Nothing changed (mostly). Since packages default to `CommonJS` the developers are likely to ship their packages with it. |
 
 ### Legacy Package Development
 
@@ -192,8 +205,9 @@ Effort a developer has to take to make her package legacy compatible.  _(5=littl
 | Proposal         |   | Explanation  |
 |------------------|---|--------------|
 | Extension        | 3 | Always deploy the package with a `.mjs` and a `.js` file at the same place (with the same name). | 
-| White-/Blacklist | 3 |  The developer has a lot of control over how the packages are built but at the same time she needs to gain control and remember how the system is setup. Human error can easily happen. |
+| White-/Blacklist | 3 | The developer has a lot of control over how the packages are built but at the same time she needs to gain control and remember how the system is setup. Human error can easily happen. |
 | ES2015 switch    | 3 | The compiler will pretty much work like anywhere else except that it is easier to specify different dependencies for different variants. |
+| default.js       | 4 | Legacy packages are straight forward both to deal with and to import. |
 
 ### Downloads
 
@@ -204,6 +218,7 @@ Change of a file-size per package. _(5=good, 1=bad)_
 | Extension        | 1 | Has to contain every file twice for legacy packages. | 
 | White-/Blacklist | 1 | Has to contain every file twice for legacy packages. |
 | ES2015 switch    | 5 | Only the package is downloaded - no change in download-size. |
+| default.js       | 1 | Has to contain every file twice for legacy packages. |
 
 ### Tooling
 
@@ -214,6 +229,7 @@ Impact that the change has on tools. _(5=simple, 1=complicated)_
 | Extension        | 4 | The .mjs file only needs to be added as file exension. | 
 | White-/Blacklist | 2 | By default all editors should mostly work but it seems unlikely that a specification will be consitently adhered-to by all editors. |
 | ES2015 switch    | 5 | By default all editors should mostly work. To implement the few edge cases would be simple too. |
+| default.js       | 5 | By default all editors should mostly work. To implement the few edge cases would be simple too. |
 
 ## Further considerations
 
