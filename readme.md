@@ -104,12 +104,14 @@ special file ending. Several file endings have been discussed, in the end
 
 [more here](https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node#option-2-new-file-extension-for-es6-modules)
 
-### 3) ~~Content-Sniffing~~ _(rejected)_
+### 3) ~~Content-Sniffing aka. Double Parsing~~ _(rejected)_
 
 The content would be pre-parsed to identify whether its a `CommonJS` or
 `ES2015` module.
 
-_(Rejected because the detection is fuzzy and could lead to user confusion and problems with tooling)_
+_(Rejected because the detection has ambiguity in `CommonJS` packages. This
+**could** be revisited if the TC39 changes the spec, but - for a variety of  
+other reasons - it is likely to still be rejected)_
 
 [more here](https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node#option-3-content-sniffing-in-node-semantics-rejected)
 
