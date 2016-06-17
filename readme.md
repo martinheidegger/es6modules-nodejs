@@ -141,6 +141,17 @@ within the `default.js` assumes that the referred module is an `ES2015 module`.
 
 [more here](https://github.com/zenparsing/es6-node-modules)
 
+### 7) ~~Do nothing~~ _(rejected)_
+
+Do not implement ES2015 modules.
+
+[more here](https://twitter.com/wa7son/status/741390531788300288)
+
+_(Note: this has been **rejected by the author** because there is lack of 
+evidence that anyone in the community supports to not go with the times. In 
+all likelyness this would split the community and might drive another fork of 
+Node.js.)_
+
 ## Comparisons
 
 ### Runtime
