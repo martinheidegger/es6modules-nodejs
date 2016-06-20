@@ -70,8 +70,9 @@ center role in several proposals.
 The ES6 module syntax _seems_ like it is just syntax sugar. And if it were 
 then this discussion would be over for a long time already. Unfortunately 
 details of the specification make ES6 modules a on a fundamental level 
-incompatible to `CommonJS` modules that are used by Node.js. One file has to 
-contain **either** a `CommonJS` module or a ES6 module.
+incompatible to `CommonJS` modules that are used by Node.js
+_([here](https://github.com/bmeck/UnambiguousJavaScriptGrammar#example) is 
+a nice example)_. One file **has** to contain **either** a `CommonJS` module or a `ES2015 module`.
 
 NPM has roughly 300,000 packages. Those packages are written as
 _(or compiled to)_ `CommonJS` modules. If `ES2015 modules` are introduced we 
@@ -255,13 +256,19 @@ proposals you might need something like `$ node --es6 some.js`.
 
 ### Changing the `ES2015` specification
 
-As mentioned a lot earlier: This discussion could have been avoided if 
+As mentioned _a lot_ earlier: This discussion might have been mitigated if 
 the TC39 would be able to fix the parsing incompatibilities in the
 specification a lot of this discussion would be void.
 
-However: this is unlikely that this will happen because the TC39 worked hard 
-to arrive at this specification and there are good reasons for the 
-incompatibilities. _(Note: reference needed)_
+There is a discussion going on about interoperability of ES2015 and CommonJS modules [here](https://github.com/bmeck/UnambiguousJavaScriptGrammar).
+This topic is [on the agenda](https://github.com/tc39/agendas/blob/master/2016/07.md) for the July 2016 `TC39` meeting on **Tuesday, 26 July 2016**.
+
+If interoperability could be accepted then a new possibility would be offered
+to us! With a clear way to separate  `ES2015 modules` from `CommonJS` modules
+we could 100% automatically transpile `ES2015 modules` to `CommonJS` modules. 
+Since the transpiled version is 100% compatible with the regular version
+we could **automatically** and thus **safely** provide variants for legacy 
+versions of Node.js.
 
 ### Possibilities of package variants
 
