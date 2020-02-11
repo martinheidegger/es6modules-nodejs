@@ -1,0 +1,481 @@
+<!DOCTYPE html><html lang="en"><head><title>ES2015 module detection in Node.js (June 2016)</title><link rel="stylesheet" type="text/css" href="index.css"><link rel="shortcut icon" href="favicon.png"><link rel="icon" href="favicon.png"><link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Jaldi:400,700"><script type="text/javascript" src="index.js"></script><meta name="viewport" content="width=320, maximum-scale=1"><meta property="og:locale" content="en_GB"><meta property="og:description" content="A summary of the efforts and problems for the Node TSC to bring ES2015 modules to Node.js."><meta property="og:image" content="http://martinheidegger.github.io/es6modules-nodejs/ogp.png"><meta property="og:image:secure_url" content="https://martinheidegger.github.io/es6modules-nodejs/ogp.png"><meta property="og:title" content="ES2015 module detection in Node.js"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"></head><body><div><ul class="table-of-contents"><li><p><a href="#es2015-module-detection-in-node-js" target="_blank"><code>ES2015</code> module detection in Node.js</a><ul><li><p><a href="#what-is-this-about" target="_blank">What is this about?</a><ul><li><p><a href="#about-es2015-modules" target="_blank">About <code>ES2015 modules</code></a></p></li></ul></p></li><li><p><a href="#the-involved-parties" target="_blank">The Involved Parties</a><ul><li><p><a href="#tc39" target="_blank">TC39</a></p></li><li><p><a href="#node-tsc" target="_blank">Node TSC</a></p></li><li><p><a href="#node-js-engineers" target="_blank">Node.js engineers</a></p></li><li><p><a href="#frontend-engineers" target="_blank">Frontend engineers</a></p></li><li><p><a href="#npm" target="_blank">NPM</a></p></li></ul></p></li><li><p><a href="#the-issue" target="_blank">The Issue</a></p></li><li><p><a href="#the-proposals" target="_blank">The Proposals</a><ul><li><p><a href="#1-in-source-pragma-rejected" target="_blank">1) <s>In-Source pragma</s> <em>(rejected)</em></a></p></li><li><p><a href="#2-new-file-extension-node-js-tsc-draft" target="_blank">2) New file extension <strong>(Node.js TSC draft)</strong></a></p></li><li><p><a href="#3-content-sniffing-aka-double-parsing-rejected" target="_blank">3) <s>Content-Sniffing aka. Double Parsing</s> <em>(rejected)</em></a></p></li><li><p><a href="#4-white-blacklist-patterns-in-package-json" target="_blank">4) White-/Blacklist patterns in <code>package.json</code></a></p></li><li><p><a href="#5-commonjs-or-es2015-switch-in-package-json" target="_blank">5) <code>CommonJS</code> or <code>ES2015</code> switch in <code>package.json</code></a></p></li><li><p><a href="#6-default-js-as-identifier" target="_blank">6) <code>default.js</code> as identifier</a></p></li><li><p><a href="#7-do-nothing-rejected" target="_blank">7) <s>Do nothing</s> <em>(rejected)</em></a></p></li></ul></p></li><li><p><a href="#comparisons" target="_blank">Comparisons</a><ul><li><p><a href="#runtime" target="_blank">Runtime</a></p></li><li><p><a href="#implementation" target="_blank">Implementation</a></p></li><li><p><a href="#education" target="_blank">Education</a></p></li><li><p><a href="#development" target="_blank">Development</a></p></li><li><p><a href="#legacy-development" target="_blank">Legacy Development</a></p></li><li><p><a href="#legacy-package-development" target="_blank">Legacy Package Development</a></p></li><li><p><a href="#downloads" target="_blank">Downloads</a></p></li><li><p><a href="#tooling" target="_blank">Tooling</a></p></li></ul></p></li><li><p><a href="#further-considerations" target="_blank">Further considerations</a><ul><li><p><a href="#es2016-modules-without-package-json" target="_blank"><code>ES2016</code> modules without <code>package.json</code></a></p></li><li><p><a href="#changing-the-es2015-specification" target="_blank">Changing the <code>ES2015</code> specification</a></p></li><li><p><a href="#possibilities-of-package-variants" target="_blank">Possibilities of package variants</a></p></li></ul></p></li><li><p><a href="#feedback" target="_blank">Feedback</a></p></li></ul></p></li></ul><section id="es2015-module-detection-in-node-js">
+<h1 id="es2015-module-detection-in-node-js"><code>ES2015</code> module detection in Node.js</h1>
+<section id="what-is-this-about">
+<h2 id="what-is-this-about">What is this about?</h2>
+<p><strong>This project has been archived.</strong> For the current state, read up on: <a href="https://nodejs.org/api/esm.html" target="_blank">https://nodejs.org/api/esm.html</a></p>
+<hr>
+<p>The <a href="https://nodejs.org/en/foundation/tsc/" target="_blank">Node TSC</a> has been
+<a href="https://github.com/nodejs/node-eps" target="_blank">publicly discussing</a> how  to implement
+<code>ES2015 modules</code> in future versions of <a href="http://nodejs.org/" target="_blank"><code>Node.js</code></a>
+for a while now.  There have been
+<a href="https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node" target="_blank">several proposals</a>
+and one has become a <a href="https://github.com/nodejs/node-eps/blob/master/002-es6-modules.md" target="_blank">draft</a>.</p>
+<p>However, some in the community feel that this solution is <em>not cool</em> and ask <a href="https://github.com/dherman/defense-of-dot-js" target="_blank"><em>in-defense-of-.js</em></a> to reconsider this draft.</p>
+<p>By reading this summary, you can ...</p>
+<ul>
+<li>... learn about the problems of the implementation</li>
+<li>... get a sense for the pro and cons of the given proposals.</li>
+<li>... start to discuss this issue on a higher level.</li>
+</ul>
+<section id="about-es2015-modules">
+<h3 id="about-es2015-modules">About <code>ES2015 modules</code></h3>
+<ul>
+<li><code>ES2015 modules</code> are part of the <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-modules" target="_blank"><code>ECMA-262</code> specification</a>. They are also called <code>ES6 modules</code> or <code>JavaScript modules</code>.</li>
+<li>They have been originally proposed by <a href="http://ecma-international.org/memento/TC39.htm" target="_blank">the TC39</a>.</li>
+<li>Some details are still up <a href="https://github.com/tc39/ecma262/issues/368" target="_blank">for</a> <a href="https://github.com/tc39/ecma262/issues/395" target="_blank">discussion</a>.</li>
+<li>MDN has an <a href="https://developer.mozilla.org/en/docs/web/javascript/reference/statements/import" target="_blank">extensive documentation</a>
+already.</li>
+<li><a href="http://babeljs.io/" target="_blank">Babel</a> is in wide use and contains a <a href="https://en.wikipedia.org/wiki/Source-to-source_compiler" target="_blank">transpiler</a> plugin for <a href="http://babeljs.io/docs/plugins/transform-es2015-modules-commonjs/" target="_blank">ES2015 modules</a>.</li>
+<li>Meteor has <code>ES2015 module</code> support <a href="http://guide.meteor.com/structure.html#es2015-modules" target="_blank">from 1.3</a>.</li>
+<li>Microsoft is already shipping with <a href="https://blogs.windows.com/msedgedev/2016/05/17/es6-modules-and-beyond/" target="_blank"><code>ES6 modules</code> for <code>Chakra</code> behind a switch</a>.</li>
+<li>The Chrome team is working on <a href="https://bugs.chromium.org/p/v8/issues/detail?id=1569" target="_blank"><strong>it</strong></a> for a while now and so <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=568953" target="_blank"><strong>is</strong></a> the Mozilla team.</li>
+</ul>
+</section>
+</section>
+<section id="the-involved-parties">
+<h2 id="the-involved-parties">The Involved Parties</h2>
+<section id="tc39">
+<h3 id="tc39">TC39</h3>
+<p>The EcmaScript TC39 - Technical Commitee is a group of about
+<a href="https://ecma-international.doodle.com/poll/4aaaraya8c52eycv" target="_blank">20 respected members</a> that work on the specification of EcmaScript (aka.
+JavaScript). They have the power to make change the details of <code>ES2015 modules</code>
+to work better with Node.js.</p>
+</section>
+<section id="node-tsc">
+<h3 id="node-tsc">Node TSC</h3>
+<p>The Node Technical Steering Committee is a group of <a href="https://nodejs.org/en/foundation/tsc/" target="_blank">12 long-term contributors to Node.js</a> that make decisions on the
+future of Node.js. They decide on how the implementation of ES2016 modules will look like going forward.</p>
+</section>
+<section id="node-js-engineers">
+<h3 id="node-js-engineers">Node.js engineers</h3>
+<p>Once <code>ES2016 modules</code> are a unavoidable part of the Node ecosystem, depending on the implementation chosen the work for
+every Node.js engineer to update their project will be different. Also developers need to interact with other developers
+and as such interoperability is a key-concern for them as well.</p>
+</section>
+<section id="frontend-engineers">
+<h3 id="frontend-engineers">Frontend engineers</h3>
+<p><code>ES2016 modules</code> are supposed to be also implemented by browsers. This has not
+<a href="https://developer.mozilla.org/en/docs/web/javascript/reference/statements/import#Browser_compatibility" target="_blank">yet happened</a> but with Chakra being the first to hide it behind a flag it is making quick progress.
+Frontend developers though also tend to increasingly use npm packages. As such they are interested in better tooling around such things as <code>ES2015 module</code> to regular JavaScript transpilers such as <a href="http://babeljs.io/" target="_blank">babel</a>.</p>
+</section>
+<section id="npm">
+<h3 id="npm">NPM</h3>
+<p><a href="https://www.npmjs.com/" target="_blank">NPM Inc.</a> maintains the system at the center of
+Node.js also called NPM. Their stake in this is that people will in future
+want to download packages with <code>CommonJS</code> and/or <code>ES2015 modules</code>. NPM also
+maintains the documentation of the
+<a href="https://docs.npmjs.com/files/package.json" target="_blank"><code>package.json</code></a> which plays a
+center role in several proposals.</p>
+</section>
+</section>
+<section id="the-issue">
+<h2 id="the-issue">The Issue</h2>
+<p>The ES6 module syntax <em>seems</em> like it is just syntax sugar. And if it were
+then this discussion would be over for a long time already. Unfortunately
+details of the specification make ES6 modules a on a fundamental level
+incompatible to <code>CommonJS</code> modules that are used by Node.js
+<em>(<a href="https://github.com/bmeck/UnambiguousJavaScriptGrammar#example" target="_blank">here</a> is
+a nice example)</em>. One file <strong>has</strong> to contain <strong>either</strong> a <code>CommonJS</code> module or a <code>ES2015 module</code>.</p>
+<p>NPM has roughly 300,000 packages. Those packages are written as
+<em>(or compiled to)</em> <code>CommonJS</code> modules. If <code>ES2015 modules</code> are introduced we
+would suddenly be facing packages that are not compatible with <code>CommonJS</code> and
+by extension not compatible with node versions that do not support
+<code>ES2015 modules</code>.</p>
+<p>This means we are left with</p>
+<ul>
+<li><code>CommonJS</code> &amp; <code>ES2015</code> module files</li>
+<li><code>CommonJS</code>-only/<code>CommonJS</code>+<code>ES2015</code>-mixed/<code>ES2015</code> packages</li>
+</ul>
+</section>
+<section id="the-proposals">
+<h2 id="the-proposals">The Proposals</h2>
+<section id="1-in-source-pragma-rejected">
+<h3 id="1-in-source-pragma-rejected">1) <s>In-Source pragma</s> <em>(rejected)</em></h3>
+<p>This detection would use some string in the file like <code>&quot;use modules&quot;;</code> to
+identify which module system should be used for this file.</p>
+<p><em>(Rejected due to complexity for tooling and implementation as well as due to the constant code tax - this string would need to be in every file)</em></p>
+<p><a href="https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node#option-1-in-source-pragma-rejected" target="_blank">more here</a></p>
+</section>
+<section id="2-new-file-extension-node-js-tsc-draft">
+<h3 id="2-new-file-extension-node-js-tsc-draft">2) New file extension <strong>(Node.js TSC draft)</strong></h3>
+<p>The type of the module (<code>CommonJS</code> or <code>ES2015</code>) is detected using the a
+special file ending. Several file endings have been discussed, in the end
+<code>.mjs</code> has been identified as the best choice.</p>
+<p><a href="https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node#option-2-new-file-extension-for-es6-modules" target="_blank">more here</a></p>
+</section>
+<section id="3-content-sniffing-aka-double-parsing-rejected">
+<h3 id="3-content-sniffing-aka-double-parsing-rejected">3) <s>Content-Sniffing aka. Double Parsing</s> <em>(rejected)</em></h3>
+<p>The content would be pre-parsed to identify whether its a <code>CommonJS</code> or
+<code>ES2015</code> module.</p>
+<p><em>(Rejected because the detection has ambiguity in <code>CommonJS</code> packages. This
+<strong>could</strong> be revisited if the TC39 changes the spec, but - for a variety of<br>
+other reasons - it is likely to still be rejected)</em></p>
+<p><a href="https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node#option-3-content-sniffing-in-node-semantics-rejected" target="_blank">more here</a></p>
+</section>
+<section id="4-white-blacklist-patterns-in-package-json">
+<h3 id="4-white-blacklist-patterns-in-package-json">4) White-/Blacklist patterns in <code>package.json</code></h3>
+<p>Patterns written in the <code>package.json</code> specify whether a file is a <code>CommonJS</code>
+or a <code>ES2015</code> module. There have been a few variants of this proposal with
+more or less complex specifications.</p>
+<p><a href="https://github.com/nodejs/node/wiki/ES6-Module-Detection-in-Node#option-4-meta-in-packagejson" target="_blank">more here</a>
+and <a href="https://github.com/dherman/defense-of-dot-js" target="_blank">here</a></p>
+</section>
+<section id="5-commonjs-or-es2015-switch-in-package-json">
+<h3 id="5-commonjs-or-es2015-switch-in-package-json">5) <code>CommonJS</code> or <code>ES2015</code> switch in <code>package.json</code></h3>
+<p>One property in the <code>package.json</code> specifies the module type for all files
+in the package (sub-packages excluded).</p>
+<p><a href="https://github.com/dherman/defense-of-dot-js/issues/10" target="_blank">more here</a></p>
+<p><em>(Note: this is originally variant 4f. Since the implementation consequences are very different it has been named 5.)</em></p>
+</section>
+<section id="6-default-js-as-identifier">
+<h3 id="6-default-js-as-identifier">6) <code>default.js</code> as identifier</h3>
+<p>Regular <code>.js</code> files would stay <code>CommonJS</code> modules while the <code>ES2015 modules</code>
+would need to be implemented in a file called <code>default.js</code>. Every import
+within the <code>default.js</code> assumes that the referred module is an <code>ES2015 module</code>.</p>
+<p><a href="https://github.com/zenparsing/es6-node-modules" target="_blank">more here</a></p>
+</section>
+<section id="7-do-nothing-rejected">
+<h3 id="7-do-nothing-rejected">7) <s>Do nothing</s> <em>(rejected)</em></h3>
+<p>Do not implement ES2015 modules.</p>
+<p><a href="https://twitter.com/wa7son/status/741390531788300288" target="_blank">more here</a></p>
+<p><em>(Note: this has been <strong>rejected by the author</strong> because there is lack of
+evidence that anyone in the community supports to not go with the times. In
+all likelyness this would split the community and might drive another fork of
+Node.js.)</em></p>
+</section>
+</section>
+<section id="comparisons">
+<h2 id="comparisons">Comparisons</h2>
+<section id="runtime">
+<h3 id="runtime">Runtime</h3>
+<p>CPU cycles and Memory when running node. <em>(5=neglectible, 1=cpu-heavy)</em></p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>5</td>
+<td>Only the file-ending has to be tested, no other overhead</td>
+</tr>
+<tr>
+<td>White-/Blacklist</td>
+<td>2</td>
+<td>The file-name has to be tested against a potentially complicated list</td>
+</tr>
+<tr>
+<td>ES2015 switch</td>
+<td>4</td>
+<td>The first file of a is slower because the <code>package.json</code> needs to be read but every further file after has the same speed.</td>
+</tr>
+<tr>
+<td>default.js</td>
+<td>4</td>
+<td>The first file might be a bit tricky to detect but overall it should be fast.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="implementation">
+<h3 id="implementation">Implementation</h3>
+<p>Effort it takes to bring this implementation to Node.js. <em>(5=little, 1=much)</em></p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>5</td>
+<td>if/else switch, thats it.</td>
+</tr>
+<tr>
+<td>White-/Blacklist</td>
+<td>3</td>
+<td>Significantly more difficult than if/else</td>
+</tr>
+<tr>
+<td>ES2015 switch</td>
+<td>1</td>
+<td>It requires <strong>NPM</strong> to implement variants of packages into the package system. <strong>However:</strong> it is important to mention that the Node.js-side should be rather trivial.</td>
+</tr>
+<tr>
+<td>default.js</td>
+<td>3</td>
+<td>It requires a new core API <em>(<code>require.import</code>)</em> and needs to have several switches to make sure it uses default.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="education">
+<h3 id="education">Education</h3>
+<p>Effort to learn the new system. <em>(5=easy, 1=hard)</em></p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>5</td>
+<td>File endings can be easily studied.</td>
+</tr>
+<tr>
+<td>White-/Blacklist</td>
+<td>2</td>
+<td>Trying to memorize this complex system is hard.</td>
+</tr>
+<tr>
+<td>ES2015 switch</td>
+<td>4</td>
+<td>Mostly straight forward, deployment of variants might be a bit harder to learn than if there were only extensions</td>
+</tr>
+<tr>
+<td>default.js</td>
+<td>1</td>
+<td>It is not immediately clear why <code>imports</code> don't work in the <code>index.js</code> but they do work in the <code>default.js</code>. Many examples and documentation might lead users into the wrong directions.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="development">
+<h3 id="development">Development</h3>
+<p>Increased development difficulty through the proposal. <em>(5=almost-none, 1=a-lot)</em></p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>3</td>
+<td>Every developer has to setup his tools to work with the new file extension</td>
+</tr>
+<tr>
+<td>White-/Blacklist</td>
+<td>1</td>
+<td>It is not immediately clear which files are <code>ES2015</code> and which are <code>CommonJS</code>. The tools might mistake that just as much as developers</td>
+</tr>
+<tr>
+<td>ES2015 switch</td>
+<td>2</td>
+<td>The developer has to learn that there are different modes and has to look it up once per package he is working on.</td>
+</tr>
+<tr>
+<td>default.js</td>
+<td>4</td>
+<td>Once a developer learned about the <code>default.js</code>, she should easily be able to find herself around in Node.js project.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="legacy-development">
+<h3 id="legacy-development">Legacy Development</h3>
+<p>Effort for a developer now to use a <code>ES2015</code>-only module. <em>(5=little, 1=much)</em></p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>4</td>
+<td>If a package decides to switch from <code>.js</code> to <code>.mjs</code> entirely the developers might need to adjust their import statements from <code>require('a-package/a-module.js')</code> to <code>require('a-package/a-module.mjs)</code> if no legacy support is present.</td>
+</tr>
+<tr>
+<td>White-/Blacklist</td>
+<td>3</td>
+<td>It is not immediately clear which files are <code>ES2015</code> and which are <code>CommonJS</code>. The tools might mistake that just as much as developers.</td>
+</tr>
+<tr>
+<td>ES2015 switch</td>
+<td>4</td>
+<td>Nothing changed but they have to know that old node.js version might not be supported with new packages.</td>
+</tr>
+<tr>
+<td>default.js</td>
+<td>4</td>
+<td>Nothing changed (mostly). Since packages default to <code>CommonJS</code> the developers are likely to ship their packages with it.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="legacy-package-development">
+<h3 id="legacy-package-development">Legacy Package Development</h3>
+<p>Effort a developer has to take to make her package legacy compatible.  <em>(5=little, 1=much)</em></p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>3</td>
+<td>Always deploy the package with a <code>.mjs</code> and a <code>.js</code> file at the same place (with the same name).</td>
+</tr>
+<tr>
+<td>White-/Blacklist</td>
+<td>3</td>
+<td>The developer has a lot of control over how the packages are built but at the same time she needs to gain control and remember how the system is setup. Human error can easily happen.</td>
+</tr>
+<tr>
+<td>ES2015 switch</td>
+<td>3</td>
+<td>The compiler will pretty much work like anywhere else except that it is easier to specify different dependencies for different variants.</td>
+</tr>
+<tr>
+<td>default.js</td>
+<td>4</td>
+<td>Legacy packages are straight forward both to deal with and to import.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="downloads">
+<h3 id="downloads">Downloads</h3>
+<p>Change of a file-size per package. <em>(5=good, 1=bad)</em></p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>1</td>
+<td>Has to contain every file twice for legacy packages.</td>
+</tr>
+<tr>
+<td>White-/Blacklist</td>
+<td>1</td>
+<td>Has to contain every file twice for legacy packages.</td>
+</tr>
+<tr>
+<td>ES2015 switch</td>
+<td>5</td>
+<td>Only the package is downloaded - no change in download-size.</td>
+</tr>
+<tr>
+<td>default.js</td>
+<td>1</td>
+<td>Has to contain every file twice for legacy packages.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="tooling">
+<h3 id="tooling">Tooling</h3>
+<p>Impact that the change has on tools. <em>(5=simple, 1=complicated)</em></p>
+<table>
+<thead>
+<tr>
+<th>Proposal</th>
+<th></th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extension</td>
+<td>4</td>
+<td>The .mjs file only needs to be added as file exension.</td>
+</tr>
+<tr>
+<td>White-/Blacklist</td>
+<td>2</td>
+<td>By default all editors should mostly work but it seems unlikely that a specification will be consitently adhered-to by all editors.</td>
+</tr>
+<tr>
+<td>ES2015 switch</td>
+<td>5</td>
+<td>By default all editors should mostly work. To implement the few edge cases would be simple too.</td>
+</tr>
+<tr>
+<td>default.js</td>
+<td>5</td>
+<td>By default all editors should mostly work. To implement the few edge cases would be simple too.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="further-considerations">
+<h2 id="further-considerations">Further considerations</h2>
+<section id="es2016-modules-without-package-json">
+<h3 id="es2016-modules-without-package-json"><code>ES2016</code> modules without <code>package.json</code></h3>
+<p><code>Node.js</code> can be just called like this: <code>$ node some.js</code> in any given folder.
+The folder does not need to contain a <code>package.json</code> and as consequence
+all of the proposals that rely on the <code>package.json</code> will not work.
+Of the given proposals only a specific file-ending (like <code>.mjs</code>) can make sure
+that modern modules can easily be called from node directly. For the other
+proposals you might need something like <code>$ node --es6 some.js</code>.</p>
+</section>
+<section id="changing-the-es2015-specification">
+<h3 id="changing-the-es2015-specification">Changing the <code>ES2015</code> specification</h3>
+<p>As mentioned <em>a lot</em> earlier: This discussion might have been mitigated if
+the TC39 would be able to fix the parsing incompatibilities in the
+specification a lot of this discussion would be void.</p>
+<p>There is a discussion going on about interoperability of ES2015 and CommonJS modules <a href="https://github.com/bmeck/UnambiguousJavaScriptGrammar" target="_blank">here</a>.
+This topic is <a href="https://github.com/tc39/agendas/blob/master/2016/07.md" target="_blank">on the agenda</a> for the July 2016 <code>TC39</code> meeting on <strong>Tuesday, 26 July 2016</strong>.</p>
+<p>If interoperability could be accepted then a new possibility would be offered
+to us! With a clear way to separate  <code>ES2015 modules</code> from <code>CommonJS</code> modules
+we could 100% automatically transpile <code>ES2015 modules</code> to <code>CommonJS</code> modules.
+Since the transpiled version is 100% compatible with the regular version
+we could <strong>automatically</strong> and thus <strong>safely</strong> provide variants for legacy
+versions of Node.js.</p>
+</section>
+<section id="possibilities-of-package-variants">
+<h3 id="possibilities-of-package-variants">Possibilities of package variants</h3>
+<p>For <code>5)</code> package variants would need to be implemented in NPM. Once NPM
+packages has the infrastructure to support variants, those variants can give
+the opporunity to implement other things:</p>
+<ul>
+<li>Frontend packages could be presented as a variant of a package containing
+the frontend part of a package.</li>
+<li>Meteor packages that are now stored on
+<a href="https://atmospherejs.com/" target="_blank">athmosphere</a> because they contain both frontend
+and backend packages. It would make it easier for Meteor to move to NPM.</li>
+<li>If we run into future incompatibilities of JavaScript it would be possible
+to just add a variant type to NPM and we'd be done.</li>
+<li>Variants could also be used to have other language packages in NPM: Python,
+C, Go,... that automatically provide Node bindings.</li>
+</ul>
+</section>
+</section>
+<section id="feedback">
+<h2 id="feedback">Feedback</h2>
+<p>If you have any question feel free to <a href="https://gitter.im/martinheidegger/es6modules-nodejs" target="_blank">chat on gitter</a>.</p>
+<p>You can also <a href="https://github.com/martinheidegger/es6modules-nodejs/issues/new" target="_blank">open an Issue</a> or Pull Request <a href="https://github.com/martinheidegger/es6modules-nodejs" target="_blank">on github</a>.</p>
+<p>And you can join this poll:</p>
+<script src="https://d3v9r9uda02hel.cloudfront.net/production/static/widgets.js"></script><noscript><a href="https://www.wedgies.com/question/574e872600f88e18001b3dc0">What ES2016 module implementation would you like to see in Node.js? 🤔 </a></noscript><div class="wedgie-widget" data-wd-pending data-wd-type="embed" data-wd-version="v1" id="574e872600f88e18001b3dc0" style="max-width: 640px; margin: 0px auto; width: 100%;"></div>
+</section>
+</section>
+</div><footer><a href="https://github.com/martinheidegger/es6modules-nodejs">Fork at Github</a><p class="license"><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">ES2015 module detection in Node.js</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Martin Heidegger</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://martinheidegger.github.io/es6modules-nodejs" rel="dct:source">https://martinheidegger.github.io/es6modules-nodejs</a>.</p></footer></body></html>
