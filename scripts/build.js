@@ -31,12 +31,12 @@ const sassData = sass.renderSync({
   outFile: sassFile
 })
 
-fs.writeFile(
+fs.writeFileSync(
   sassFile,
   sassData.css
 )
 
-fs.writeFile(
+fs.writeFileSync(
   path.join(__dirname, '..', 'build', 'index.html'),
   jade.renderFile(path.join(__dirname, 'index.jade'), {
     markdown: md.render('{!toc}\n\n' + fs.readFileSync(path.join(__dirname, '..', 'readme.md'), 'utf-8'))

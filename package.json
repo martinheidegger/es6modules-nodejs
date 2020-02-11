@@ -29,7 +29,7 @@
     "browserify": "^13.0.1",
     "domready": "^1.0.8",
     "element-scroll-to": "^1.1.0",
-    "eyeglass": "^0.8.3",
+    "eyeglass": "^2.4.2",
     "jade": "^1.11.0",
     "markdown-it": "^6.0.5",
     "markdown-it-attrs": "^0.5.1",
@@ -37,7 +37,7 @@
     "markdown-it-hashtag": "^0.4.0",
     "markdown-it-header-sections": "^0.2.2",
     "markdown-it-link-target": "^1.0.1",
-    "node-sass": "^3.7.0",
+    "node-sass": "^4.13.1",
     "standard": "^7.1.2"
   }
 }
