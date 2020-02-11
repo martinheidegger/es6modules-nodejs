@@ -1,6 +1,10 @@
-# `ES2015` module detection in Node.js _(June 2016)_
+# `ES2015` module detection in Node.js
 
 ## What is this about?
+
+**This project has been archived.** For the current state, read up on: https://nodejs.org/api/esm.html
+
+---
 
 The [Node TSC](https://nodejs.org/en/foundation/tsc/) has been
 [publicly discussing](https://github.com/nodejs/node-eps) how  to implement
